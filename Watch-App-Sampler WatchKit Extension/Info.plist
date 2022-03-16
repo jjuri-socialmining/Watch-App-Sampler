@@ -42,7 +42,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>com.dcsnail.Watch-App-Sampler.watchkitapp</string>
+			<string>com.Socialmining2.Watch-App-Sampler.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>

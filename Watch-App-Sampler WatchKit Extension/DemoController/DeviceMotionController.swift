@@ -12,7 +12,11 @@ import UIKit
 import WatchKit
 import CoreMotion
 
-class DeviceMotionController: WKInterfaceController {
+@available(watchOSApplicationExtension 6.0, *)
+
+class DeviceMotionController: WKInterfaceController,URLSessionWebSocketDelegate  {
+    
+    private var webSocket: URLSessionWebSocketTask?
     
     @IBOutlet var RollLabel: WKInterfaceLabel!
     @IBOutlet var PitchLabel: WKInterfaceLabel!
@@ -40,7 +44,7 @@ class DeviceMotionController: WKInterfaceController {
     
     lazy var motionManager: CMMotionManager = {
         let manager = CMMotionManager()
-        manager.deviceMotionUpdateInterval = 0.1
+        manager.deviceMotionUpdateInterval = 1.75
         return manager
     }()
     
@@ -48,13 +52,37 @@ class DeviceMotionController: WKInterfaceController {
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
+        let session = URLSession(
+            configuration: .default,
+            delegate: self,
+            delegateQueue: OperationQueue()
+        )
+            //let url = URL(string:"wss://echo.websocket.events")
+            let url = URL(string:"ws://3.98.59.221/ws/simple")
+            webSocket = session.webSocketTask(with: url!)
+            webSocket?.resume()
+        
+        
         if motionManager.isDeviceMotionAvailable {
+            
+
             
             motionManager.startDeviceMotionUpdates(to: OperationQueue.main) { (data, error) in
                 if let attitude = data?.attitude {
                     self.RollLabel.setText(String(format: "%.2f", attitude.roll))
                     self.PitchLabel.setText(String(format: "%.2f", attitude.pitch))
                     self.YawLabel.setText(String(format: "%.2f", attitude.yaw))
+                    
+                    DispatchQueue.global().asyncAfter(deadline: .now()+1) {
+                        
+                        self.send()
+                        self.webSocket?.send(.string("este mensaje \(String(format: "%.2f", attitude.roll))"), completionHandler: { error in
+                            if let error = error {
+                                print("send error: \(error)")
+                            }
+                        })
+                        
+                    }
                 }
                 if let rotationRate = data?.rotationRate {
                     self.RotXLabel.setText(String(format: "%.2f", rotationRate.x))
@@ -91,6 +119,67 @@ class DeviceMotionController: WKInterfaceController {
     override func didDeactivate() {
         super.didDeactivate()
         
-        motionManager.stopDeviceMotionUpdates()
+        //motionManager.stopDeviceMotionUpdates()
     }
+    
+    func ping(){
+           webSocket?.sendPing(pongReceiveHandler: { error in
+               if let error = error{
+                   print("ping error \(error)")
+               }
+           })
+       }
+       
+       func close(){
+           webSocket?.cancel(with: .goingAway, reason: "demon ended".data(using: .utf8))
+       }
+       
+    func send(){
+        DispatchQueue.global().asyncAfter(deadline: .now()+1) {
+            
+            let doubleStr = String(format: "%.2f", Double.random(in: 0.00...4.00)) ;
+
+            //print(doubleStr)
+            self.send()
+            self.webSocket?.send(.string(doubleStr), completionHandler: { error in
+                if let error = error {
+                    print("send error: \(error)")
+                }
+            })
+            
+        }
+                                          
+    }
+                                             
+       
+       func receive(){
+           webSocket?.receive(completionHandler: { [weak self] result in
+               switch result {
+               case .success(let message):
+                   switch message {
+                   case .data(let data):
+                       print("Got Data:  \(data)")
+                   case .string(let message):
+                       print("got string \(message)")
+                   @unknown default:
+                       break
+                   }
+               case .failure(let error):
+                   print("recibi el error: \(error)")
+                   
+               }
+               self?.receive()
+           })
+       }
+       
+       func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+         print("Nos conectamos")
+           ping()
+           receive()
+           send()
+       }
+
+       func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+           print("Nos desconectamos porque: ")
+       }
 }
