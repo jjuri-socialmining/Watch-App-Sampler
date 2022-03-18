@@ -1,26 +1,3 @@
-# Watch-App-Sampler
-
-[![Platform](https://img.shields.io/badge/platform-%20watchOS%20%7C%20iOS-lightgray.svg)]()
-[![Language](https://img.shields.io/badge/swift-5.0-orange.svg)](http://swift.org)
-[![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://mit-license.org)
-[![Contact](https://img.shields.io/badge/contact-wangyanchang21-green.svg)](https://github.com/wangyanchang21)
-
-
-A nice tutorial app for WatchOS, in swift.
-
-Watch-App-Sampler has supported WatchOS 5.0 and  Swift 5.0.
-
-If you want to learn how to develop WathKit app, this tutorial app is the best choice.
-
-[English introduce](https://github.com/wangyanchang21/Watch-App-Sampler) / [中文介绍](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/README_chinese.md)
-
-![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/watch.jpg)
-
-
-## Getting Started
-
-- [Apple Watch Programming Guide](https://developer.apple.com/library/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/index.html) - Official apple watch programming guide by Apple.
-- [WatchOS开发教程](https://wangyanchang21.github.io/2018/WatchOS%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B%E4%B9%8B%E4%B8%80/)
 
 ## Contents
 
@@ -36,11 +13,7 @@ Notification development contains static and dynamic Interface.
 
 ![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/notification.gif)
 
-### Complications
 
-There are 33 templates for apple watch.
-
-![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/complication.png)
 
 ### Connectivity
 
@@ -48,11 +21,6 @@ Make a connectivity between watch to iPhone, send and recieve messages.
 
 ![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/connectivity.gif)
 
-### Net Request
-
-Show image until it has been download completely.
-
-![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/request.gif)
 
 ### Menus
 
@@ -157,18 +125,6 @@ Read your motion activity, which is is walking, running, or cycling...
 
 ![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/motionActivity.png)
 
-### Quatz2D
-
-Drow complex image by Quatz2D on watch.
-
-![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/quatz.gif)
-
-### Gradation
-
-Drow gradient image by UIGraphic.
-
-![](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/image/graphic.gif)
-
 
 ### Others
 
@@ -182,15 +138,4 @@ Data Storage, Background Task, Types of Haptic, Pedometer...
 - iOS 10.0+
 - watchOS 5.0+
 
-## Thanks
-
-- [watchOS-2-Sampler](https://github.com/shu223/watchOS-2-Sampler) gave me some inspiration.
-
-## Author
-
-- DCSnail, [wangyanchang21](https://github.com/wangyanchang21)
-
-## License
-
-Watch-App-Sampler is licensed under the [MIT License](https://github.com/wangyanchang21/Watch-App-Sampler/blob/master/LICENSE).
 
